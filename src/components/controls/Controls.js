@@ -7,7 +7,7 @@ const Controls = (props) => {
   const { playerActive } = props
   return (
     <div className='controls--container'>
-      <p className='data-player'>Jugador en turno: <span className={`data-player-${playerActive}`}>{playerActive}</span></p>
+      <p className='data-player'>Player: <span className={`data-player-${playerActive}`}>{playerActive}</span></p>
     </div>
   )
 }

@@ -1,0 +1,36 @@
+.controls--container {
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+}
+
+.mButton {
+  padding: .7rem;
+  border-radius: 50%;
+  text-transform: uppercase;
+  margin-right: 1rem;
+  border-width: 0;
+  background-color: deeppink;
+  color: #FFF;
+  font-size: 1.3em;
+  width: 3rem;
+  height: 3rem;
+}
+  .mButton:disabled {
+    background: gray;
+  }
+
+.data-player {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.data-player-a {
+  font-weight: bold;
+  color: '#3F51B5';
+  font-size: 1.7rem;
+}
+.data-player-b {
+  font-weight: bold;
+  color: '#F44336';
+  font-size: 1.7rem;
+}

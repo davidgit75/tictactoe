@@ -1,0 +1,34 @@
+/* .main-container-cuadrant {} */
+
+.container-cuadrant {
+  padding: 15px;
+}
+
+.leftBorder {
+  border-left-style: solid;
+  border-left-width: 4px;
+}
+.noLeftBorder {
+  border-left-width: 0;
+}
+.topBorder {
+  border-top-style: solid;
+  border-top-width: 4px;
+}
+.noTopBorder {
+  border-top-width: 0;
+}
+.rightBorder {
+  border-right-style: solid;
+  border-right-width: 4px;
+}
+.noRightBorder {
+  border-right-width: 0;
+}
+.bottomBorder {
+  border-bottom-style: solid;
+  border-bottom-width: 4px;
+}
+.noBottomBorder {
+  border-bottom-width: 0;
+}

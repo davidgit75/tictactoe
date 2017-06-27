@@ -1,21 +1,66 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { activePlayer as setPlayerActiveAction, clearCuadrants as clearCuadrantsAction, addCuadrant as addCuadrantAction } from '../../redux/actionCreators'
+import {
+  activePlayer as setPlayerActiveAction,
+  clearCuadrants as clearCuadrantsAction,
+  addCuadrant as addCuadrantAction,
+  setResults as setResultsAction,
+  setGameFinished as setGameFinishedAction
+} from '../../redux/actionCreators'
 import './styles.css'
 import Cuadrant from '../cuadrant'
 import Controls from '../Controls'
+import { equalRowsData, equalColumnsData, equalDiagonalsData } from '../../utils/results'
 
 class App extends Component {
+  constructor() {
+    super()
+    this.canvasToMatrix = {
+      0: [0, 0],
+      1: [0, 1],
+      2: [0, 2],
+      3: [1, 0],
+      4: [1, 1],
+      5: [1, 2],
+      6: [2, 0],
+      7: [2, 1],
+      8: [2, 2],
+    }
+  }
+
+  gameFinished(newResults) {
+    const equalRows = equalRowsData(newResults)
+    const equalColumns = equalColumnsData(newResults)
+    const equalDiagonals = equalDiagonalsData(newResults)
+    const isFinished = equalRows.length || equalColumns.length || equalDiagonals.length
+    this.props.setGameFinished(isFinished)
+    return isFinished
+  }
+
   addCuadrant(c) {
     if(this.props.cuadrants.indexOf(c) < 0) {
-      this.props.setPlayerActive(this.props.playerActive==='a' ? 'b' : 'a')
-      this.props.addCuadrant(c)
+      const newPlayer = this.props.playerActive==='a' ? 'b' : 'a'
+      const newResults = [...this.props.results]
+      const positions = this.canvasToMatrix[c]
+      newResults[positions[0]][positions[1]] = this.props.playerActive
+      if(!this.gameFinished(newResults)) {
+        this.props.setPlayerActive(newPlayer)
+        this.props.addCuadrant(c)
+        this.props.setResults(newResults)
+      } else {
+        setTimeout(() => {
+          this.props.clearCuadrants()
+          this.props.setGameFinished(false)
+          this.props.setPlayerActive('a')
+          this.props.setResults([[null, null, null], [null, null, null], [null, null, null]])
+        }, 1500)
+      }
     }
   }
 
   render() {
-    console.log('props app', this.props)
+    // console.log('props app', this.props)
     return (
       <div className='container'>
         <div className='content'>
@@ -39,7 +84,11 @@ class App extends Component {
         </div>
 
         <div className='controls'>
-          <Controls playerActive={this.props.playerActive} />
+          {
+            !this.props.gameFinished ?
+              <Controls playerActive={this.props.playerActive} />
+            : <p className='message-winner'>{`Player ${this.props.playerActive} is the winner`}</p>
+          }
         </div>
       </div>
     );
@@ -48,7 +97,9 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   playerActive: state.playerActive,
-  cuadrants: state.cuadrants
+  cuadrants: state.cuadrants,
+  results: state.results,
+  gameFinished: state.gameFinished
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -60,6 +111,12 @@ const mapDispatchToProps = dispatch => ({
   },
   setPlayerActive(player){
     return dispatch(setPlayerActiveAction(player))
+  },
+  setResults(results) {
+    return dispatch(setResultsAction(results))
+  },
+  setGameFinished(finish) {
+    return dispatch(setGameFinishedAction(finish))
   }
 })
 

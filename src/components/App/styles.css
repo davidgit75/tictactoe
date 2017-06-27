@@ -14,3 +14,9 @@
 .controls {
   margin-top: 3rem;
 }
+
+.message-winner {
+  font-size: 1.3em;
+  font-weight: bold;
+  text-decoration: underline;
+}

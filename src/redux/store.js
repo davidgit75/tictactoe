@@ -2,10 +2,11 @@ import { createStore } from 'redux'
 import reducer from './reducers'
 
 const initStates = {
-  playerActive: 'a',
-  cuadrants: [],
-  results: [[null, null, null], [null, null, null], [null, null, null]],
+  results: {playerActive: 'a', results: [[null, null, null], [null, null, null], [null, null, null]]},
   gameFinished: false
 }
 
-export default createStore(reducer, initStates)
+const store = createStore(reducer, initStates)
+window.store = store
+
+export default store

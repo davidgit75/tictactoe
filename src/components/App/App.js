@@ -59,34 +59,23 @@ class App extends Component {
     }
   }
 
+
+
   render() {
     // console.log('props app', this.props)
+    const {results} = this.props
     return (
-      <div className='container'>
-        <div className='content'>
-          <div className='row'>
-            <Cuadrant left={false} top={false} right bottom id='0' onClick={() => this.addCuadrant(0)} />
-            <Cuadrant left={false} top={false} right bottom id='1' onClick={() => this.addCuadrant(1)} />
-            <Cuadrant left={false} top={false} right={false} bottom id='2' onClick={() => this.addCuadrant(2)} />
-          </div>
+      <div>
+        <Cuadrant row={0} col={0}/>|<Cuadrant row={0} col={1}/>|<Cuadrant row={0} col={2}/><br/><br/>
+        <Cuadrant row={1} col={0}/>|<Cuadrant row={1} col={1}/>|<Cuadrant row={1} col={2}/><br/><br/>
+        <Cuadrant row={2} col={0}/>|<Cuadrant row={2} col={1}/>|<Cuadrant row={2} col={2}/><br/>
 
-          <div className='row'>
-            <Cuadrant left={false} top={false} right bottom id='3' onClick={() => this.addCuadrant(3)} />
-            <Cuadrant left={false} top={false} right bottom id='4' onClick={() => this.addCuadrant(4)} />
-            <Cuadrant left={false} top={false} right={false} bottom id='5' onClick={() => this.addCuadrant(5)} />
-          </div>
 
-          <div className='row'>
-            <Cuadrant left={false} top={false} right bottom={false} id='6' onClick={() => this.addCuadrant(6)} />
-            <Cuadrant left={false} top={false} right bottom={false} id='7' onClick={() => this.addCuadrant(7)} />
-            <Cuadrant left={false} top={false} right={false} bottom={false} id='8' onClick={() => this.addCuadrant(8)} />
-          </div>
-        </div>
 
         <div className='controls'>
           {
             !this.props.gameFinished ?
-              <Controls playerActive={this.props.playerActive} />
+              <Controls playerActive={this.props.playerActive} makeAIMove={() => this.props.makeAIMove(this.props.playerActive)} makeRandomMove={() => this.props.makeRandomMove(this.props.playerActive)}/>
             : <p className='message-winner'>{`Player ${this.props.playerActive} is the winner`}</p>
           }
         </div>
@@ -96,9 +85,9 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  playerActive: state.playerActive,
+  playerActive: state.results.playerActive,
   cuadrants: state.cuadrants,
-  results: state.results,
+  results: state.results.results,
   gameFinished: state.gameFinished
 })
 
@@ -117,7 +106,13 @@ const mapDispatchToProps = dispatch => ({
   },
   setGameFinished(finish) {
     return dispatch(setGameFinishedAction(finish))
-  }
+  },
+  makeAIMove(player) {
+    return dispatch({type: 'MAKE_AI_MOVE', player})
+  },
+  makeRandomMove(player) {
+    return dispatch({type: 'MAKE_RANDOM_MOVE', player})
+  },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

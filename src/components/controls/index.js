@@ -1,3 +1,3 @@
-import Controls from './ControlsContainer'
+import Controls from './Controls'
 
 export default Controls
